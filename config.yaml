@@ -1,0 +1,16 @@
+feeds:
+  - https://news.ycombinator.com/rss
+  - https://www.theverge.com/rss/index.xml
+  - https://arxiv.org/rss/cs.AI
+filters:
+  include_keywords: ["AI","intelligence","agents","privacy","law","security","crypto"]
+  exclude_keywords: ["rumor","giveaway"]
+episode:
+  target_minutes: 12
+  music_bed_path: "assets/bg_bed.mp3"    # leave blank to disable
+brand:
+  sign_on: "You're listening to Demetri dot xyz — the intelligence you need."
+  sign_off: "Thanks for listening. Subscribe and share."
+output:
+  dir: "episodes"
+  cover_png: ""     # optional static cover artwork path
