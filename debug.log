@@ -1,0 +1,24 @@
+/home/ouroboros/demetri-pod/main.py:575: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  ts = dt.datetime.utcnow().strftime("%Y%m%d-%H%M")
+/home/ouroboros/demetri-pod/main.py:647: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  ep_title = f"{TITLE} — {dt.datetime.utcnow():%b %d, %Y}"
+/home/ouroboros/demetri-pod/main.py:669: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  dt.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S +0000"),
+Processing uploaded files: ['test.txt']
+📁 Processing 1 uploaded files...
+🎵 Creating custom intro...
+ElevenLabs TTS error: headers: {'date': 'Sun, 05 Oct 2025 05:57:17 GMT', 'server': 'uvicorn', 'content-length': '201', 'content-type': 'application/json', 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'POST, PATCH, OPTIONS, DELETE, GET, PUT', 'access-control-max-age': '600', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'x-trace-id': 'a6dce066b3b8169c074e1482b456d5e5', 'x-region': 'us-central1', 'via': '1.1 google, 1.1 google', 'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'}, status_code: 401, body: {'detail': {'status': 'quota_exceeded', 'message': 'This request exceeds your API key (demetri.xyz-key-eleven) quota of 20. You have 20 credits remaining, while 64 credits are required for this request.'}}
+Falling back to OpenAI TTS...
+🎙️  Generating audio...
+🎵 Mixing final episode...
+🚀 Distributing episode...
+❌ Website upload failed: 404 Client Error: Not Found for url: https://demetri.xyz/api/upload-podcast
+📡 Updating RSS feed...
+📡 Spotify will automatically pick up new episodes from RSS feed
+❌ Twitter post failed: 401 Unauthorized
+Unauthorized
+
+✅ Episode ready: episodes/20251005-0556/demetri.xyz_20251005-0556.mp3
+📁 Scripts in: episodes/20251005-0556
+🌐 RSS feed: episodes/feed.xml
+🎧 Listen at: https://demetri.xyz/podcast/demetri.xyz_20251005-0556.mp3

@@ -1,0 +1,10 @@
+This is a test about AI agents and autonomous systems.
+
+Recent developments show that AI agents are becoming more capable at complex tasks. They can now handle multi-step reasoning and maintain context over longer conversations.
+
+Key implications:
+- Increased automation potential
+- New safety considerations needed
+- Impact on knowledge work
+
+This concludes our test document.

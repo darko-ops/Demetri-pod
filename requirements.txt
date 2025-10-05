@@ -1,3 +1,4 @@
+# Existing dependencies
 openai>=1.0.0
 requests>=2.31.0
 beautifulsoup4>=4.12.0
@@ -5,3 +6,14 @@ feedparser>=6.0.10
 pydub>=0.25.1
 pyyaml>=6.0.1
 python-dotenv>=1.0.0
+
+# New dependencies for enhanced features
+google-generativeai>=0.3.0  # For Gemini API
+elevenlabs>=0.2.26          # For ElevenLabs TTS
+tweepy>=4.14.0              # For Twitter API
+PyPDF2>=3.0.0               # For PDF text extraction
+python-docx>=0.8.11         # For Word document support (optional)
+
+# Additional audio processing
+scipy>=1.11.0               # For advanced audio processing
+numpy>=1.24.0               # Required by scipy

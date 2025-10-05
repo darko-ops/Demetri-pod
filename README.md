@@ -1,197 +1,231 @@
-# Demetri-pod 🎧
+# Enhanced AI Podcast Generator Setup & Usage
 
-An AI-powered podcast generator that automatically creates tech/AI news podcasts by fetching RSS feeds, generating scripts with GPT-4, and producing audio with text-to-speech.
+## 🚀 New Features
 
-## Features
+1. **File Upload Support** - Generate podcasts from PDFs, docs, and text files
+2. **ElevenLabs Integration** - Use your cloned voices for more natural speech
+3. **Multi-Host Support** - Create conversations between two hosts
+4. **Gemini AI Support** - Use Google's Gemini for script generation
+5. **Auto Distribution** - Automatically upload to Spotify and post on Twitter
+6. **Website Integration** - Upload directly to demetri.xyz
 
-- **Automated Content Curation**: Fetches stories from RSS feeds (Hacker News, The Verge, arXiv AI papers)
-- **Smart Filtering**: Filters content based on keywords (AI, intelligence, agents, privacy, law, security, crypto)
-- **AI Script Generation**: Uses GPT-4o-mini to create engaging podcast scripts with intro, segments, and outro
-- **Text-to-Speech**: Generates high-quality audio using OpenAI's TTS API
-- **Audio Mixing**: Combines voice tracks with background music
-- **RSS Feed Generation**: Creates podcast RSS feeds for distribution
-- **Episode Management**: Organizes episodes with timestamps and metadata
+## 📋 Prerequisites
 
-## Quick Start
+### API Keys Needed:
+1. **OpenAI API Key** (backup for TTS/text generation)
+2. **Gemini API Key** (primary text generation)
+3. **ElevenLabs API Key** (voice cloning/TTS)
+4. **Twitter API Keys** (auto-posting)
+5. **Website API Key** (for demetri.xyz uploads)
 
-### Prerequisites
+### Voice Setup:
+1. Clone your voice in ElevenLabs
+2. Clone a cohost voice (or use a preset voice)
+3. Note the Voice IDs for your .env file
 
-- Python 3.8+
-- OpenAI API key
-- Audio files for background music (optional)
+## 🛠️ Installation
 
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/darko-ops/Demetri-pod.git
-cd Demetri-pod
-```
-
-2. Install dependencies:
+1. **Install Dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Set up environment variables:
+2. **Set Up Environment Variables:**
 ```bash
 cp .env.example .env
-# Edit .env with your API keys and configuration
+# Edit .env with your API keys and voice IDs
 ```
 
-### Configuration
+3. **Configure Voice IDs in ElevenLabs:**
+   - Go to ElevenLabs dashboard
+   - Find your cloned voice IDs
+   - Add them to your .env file
 
-Edit `config.yaml` to customize:
+## 🎙️ Usage
 
-- **RSS Feeds**: Add or modify RSS feed URLs
-- **Filters**: Adjust keyword filters for content inclusion/exclusion
-- **Branding**: Customize sign-on/sign-off messages
-- **Audio**: Set background music path and episode duration
+### Method 1: File-Based Podcasts (New!)
 
-Example configuration:
-```yaml
-feeds:
-  - https://news.ycombinator.com/rss
-  - https://www.theverge.com/rss/index.xml
-  - https://arxiv.org/rss/cs.AI
-
-filters:
-  include_keywords: ["AI","intelligence","agents","privacy","law","security","crypto"]
-  exclude_keywords: ["rumor","giveaway"]
-
-brand:
-  sign_on: "You're listening to Demetri dot xyz — the intelligence you need."
-  sign_off: "Thanks for listening. Subscribe and share."
-```
-
-### Environment Variables
-
-Create a `.env` file with:
+Generate a podcast from uploaded documents:
 
 ```bash
-# Required
-OPENAI_API_KEY=your_openai_api_key_here
+# Single file
+python main.py "/path/to/situational-awareness.pdf"
 
-# Optional
-PODCAST_TITLE=Demetri.xyz
-HOST_VOICE=alloy
-MAX_STORIES=4
-RSS_SITE=https://your-domain.com
-RSS_EMAIL=your-email@example.com
-RSS_AUTHOR=Your Name
+# Multiple files
+python main.py "file1.pdf" "file2.txt" "paper.docx"
 ```
 
-### Usage
+**Supported formats:**
+- PDF (.pdf)
+- Text (.txt, .md)
+- Word (.docx)
 
-Run the podcast generator:
+### Method 2: RSS-Based Podcasts (Original)
+
+Generate from RSS feeds (no arguments):
 
 ```bash
 python main.py
 ```
 
-This will:
-1. Fetch recent stories from configured RSS feeds
-2. Generate podcast scripts using AI
-3. Create audio files with text-to-speech
-4. Mix audio with background music
-5. Generate RSS feed entry
-6. Save everything to the `episodes/` directory
+This will fetch from your configured RSS feeds in `config.yaml`.
 
-### Output Structure
+## 🔧 Configuration
 
-Each episode creates a timestamped directory:
+### Voice Configuration
 
-```
-episodes/
-└── 20241201-1430/
-    ├── script_intro.txt
-    ├── script_seg1.txt
-    ├── script_seg2.txt
-    ├── script_outro.txt
-    ├── sources.json
-    ├── intro.mp3
-    ├── seg1.mp3
-    ├── seg2.mp3
-    ├── outro.mp3
-    └── demetri.xyz_20241201-1430.mp3
+In your `.env` file:
+```bash
+# Your cloned voice (main host)
+ELEVENLABS_HOST_VOICE_ID=pNInz6obpgDQGcFmaJgB
+
+# Cohost voice (cloned or preset)
+ELEVENLABS_COHOST_VOICE_ID=ErXwobaYiN019PkySvjV
+
+# Choose AI service
+AI_SERVICE=gemini  # or "openai"
 ```
 
-## Customization
+### Twitter Auto-Posting
 
-### Adding New RSS Feeds
+Set up Twitter API v2 access:
+1. Go to [Twitter Developer Portal](https://developer.twitter.com/)
+2. Create an app and get your keys
+3. Add to `.env` file
 
-Edit `config.yaml` and add URLs to the `feeds` list:
+### Website Upload
 
+Create an upload endpoint on demetri.xyz:
+```bash
+WEBSITE_UPLOAD_URL=https://demetri.xyz/api/upload-podcast
+WEBSITE_API_KEY=your_secret_key
+```
+
+## 📁 Output Structure
+
+Each episode creates:
+```
+episodes/20241201-1430/
+├── script_intro.txt          # Intro script
+├── script_seg1.txt           # Segment scripts
+├── script_seg2.txt
+├── script_outro.txt          # Outro script
+├── sources.json              # Source metadata
+└── demetri.xyz_20241201-1430.mp3  # Final episode
+```
+
+## 🎧 Distribution Flow
+
+1. **RSS Feed** - Updated automatically in `episodes/feed.xml`
+2. **Spotify** - Reads from your RSS feed (no direct upload needed)
+3. **Website** - Uploads via your API endpoint
+4. **Twitter** - Auto-posts announcement with link
+
+## 🔍 Example Workflows
+
+### Discuss a Research Paper
+```bash
+python main.py "papers/gpt4-technical-report.pdf"
+```
+Creates a 2-host conversation analyzing the paper.
+
+### Weekly News Roundup
+```bash
+python main.py
+```
+Generates single-host episode from RSS feeds.
+
+### Multiple Document Analysis
+```bash
+python main.py "report1.pdf" "analysis.txt" "whitepaper.pdf"
+```
+Creates segments discussing each document.
+
+## 🎛️ Advanced Options
+
+### Custom Prompts
+
+Modify the script generation prompts in `main.py`:
+- `intro_prompt` - Episode introduction
+- `seg_prompt` - Segment generation
+- `outro_prompt` - Episode conclusion
+
+### Audio Processing
+
+Adjust in `config.yaml`:
 ```yaml
-feeds:
-  - https://your-custom-feed.com/rss
+episode:
+  target_minutes: 15        # Target length
+  music_bed_path: "assets/bg_bed.mp3"
 ```
 
-### Changing Voice
+### Voice Settings
 
-Set the `HOST_VOICE` environment variable to one of:
-- `alloy` (default)
-- `echo`
-- `fable`
-- `onyx`
-- `nova`
-- `shimmer`
-
-### Modifying Content Filters
-
-Adjust the keyword filters in `config.yaml`:
-
-```yaml
-filters:
-  include_keywords: ["your", "keywords", "here"]
-  exclude_keywords: ["unwanted", "terms"]
+Fine-tune ElevenLabs voices:
+```python
+# In the elevenlabs_tts function
+voice_settings = VoiceSettings(
+    stability=0.75,
+    similarity_boost=0.85,
+    style=0.2
+)
 ```
 
-## RSS Feed Distribution
+## 🚨 Troubleshooting
 
-The generated `feed.xml` can be used with:
-- **Castopod**: Self-hosted podcast platform
-- **Spotify for Podcasters**: Import RSS feed
-- **Apple Podcasts**: Submit RSS feed
-- **Google Podcasts**: Submit RSS feed
+### Common Issues:
 
-## Architecture
+1. **API Rate Limits**
+   - ElevenLabs: 10,000 chars/month on free tier
+   - Gemini: Has generous free tier
+   - Solution: Monitor usage, add error handling
 
-- **Content Fetching**: `fetch_recent_items()` - RSS parsing and filtering
-- **Content Processing**: `fetch_page_text()` - Web scraping and text extraction
-- **AI Generation**: `llm()` - GPT-4 integration for script generation
-- **Audio Production**: `tts()` and `mix_segments()` - TTS and audio mixing
-- **Distribution**: `write_rss()` - RSS feed generation
+2. **Voice Quality**
+   - Ensure high-quality voice clones in ElevenLabs
+   - Use clear source audio for cloning
+   - Adjust voice settings for consistency
 
-## Dependencies
+3. **File Processing**
+   - Large PDFs may hit token limits
+   - Solution: Automatic chunking to 8000 chars per file
 
-- `openai`: GPT-4 and TTS API integration
-- `requests`: HTTP requests for RSS feeds and web scraping
-- `beautifulsoup4`: HTML parsing for content extraction
-- `feedparser`: RSS feed parsing
-- `pydub`: Audio processing and mixing
-- `pyyaml`: Configuration file parsing
-- `python-dotenv`: Environment variable management
+4. **Twitter Posting**
+   - Need Twitter API v2 access
+   - Character limits enforced automatically
 
-## Contributing
+### Debug Mode
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+Add logging for debugging:
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
 
-## License
+## 📈 Usage Tips
 
-This project is open source. See the repository for license details.
+1. **File Naming** - Use descriptive names for uploaded files
+2. **Voice Consistency** - Test voice settings before long episodes
+3. **Content Length** - Optimal file size: 2-10 pages for good discussion
+4. **Backup Strategy** - Original files and OpenAI TTS as fallbacks
 
-## Support
+## 🔄 Future Enhancements
 
-For issues and questions:
-- Open an issue on GitHub
-- Check the configuration examples
-- Review the logs in the `logs/` directory
+- Support for more file formats (PowerPoint, etc.)
+- Dynamic conversation flow based on content
+- Integration with more platforms (YouTube, etc.)
+- Real-time voice cloning improvements
+- Custom voice training for better consistency
+
+## 🆘 Support
+
+For issues:
+1. Check the logs in console output
+2. Verify all API keys are valid
+3. Test with smaller files first
+4. Check ElevenLabs voice availability
 
 ---
 
-**Demetri.xyz** - The intelligence you need. 🎧
+**Ready to create AI-powered podcasts with your voice!** 🎧✨
+
+source venv/bin/activate
